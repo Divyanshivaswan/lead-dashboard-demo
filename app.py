@@ -14,6 +14,7 @@ st.set_page_config(
 # Clay.com / Linear Style - Advanced UI with Micro-interactions & Hover Effects
 st.markdown("""
 <style>
+   /* Fix for Streamlit White Input/Text Boxes */
     .stTextInput input, .stSelectbox select, div[data-baseweb="select"] {
         background-color: #161b22 !important;
         color: #f0f6fc !important;
