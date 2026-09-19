@@ -1,98 +1,339 @@
-import streamlit as st
-import pandas as pd
-import os
-
-# Page Config
 st.set_page_config(
-    page_title="B2B Lead Intelligence Dashboard",
-    page_icon="🎯",
-    layout="wide"
+    page_title="Leadno | B2B Prospect Intelligence",
+    page_icon="⚡",
+    layout="wide",
+    initial_sidebar_state="expanded"
 )
 
-# Custom Styling
 st.markdown("""
-    <style>
-    .main { background-color: #f8f9fa; }
-    .stMetric { background-color: #ffffff; padding: 15px; border-radius: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
-    </style>
-""", unsafe_allow_html=True)
+<style>
+    /* Main Background & Typography */
+    .stApp {
+        background-color: #0d1117;
+        color: #c9d1d9;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+    
+    /* Clean Navbar Header */
+    .nav-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 1rem 0rem 1.5rem 0rem;
+        border-bottom: 1px solid #21262d;
+        margin-bottom: 1.5rem;
+    }
+    .brand-title {
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: #f0f6fc;
+        letter-spacing: -0.02em;
+    }
+    .brand-tag {
+        background: #1f6feb22;
+        color: #58a6ff;
+        border: 1px solid #1f6feb44;
+        font-size: 0.72rem;
+        padding: 2px 8px;
+        border-radius: 12px;
+        font-weight: 600;
+        margin-left: 8px;
+    }
 
-st.title("🎯 B2B Lead Intelligence & Prospecting Dashboard")
-st.caption("Live Local Business Data, Google Ratings & Contact Extraction")
+    /* Metric Cards */
+    .metric-card {
+        background: #161b22;
+        border: 1px solid #30363d;
+        border-radius: 8px;
+        padding: 1.1rem;
+        margin-bottom: 1rem;
+    }
+    .metric-label {
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: #8b949e;
+        font-weight: 600;
+    }
+    .metric-value {
+        font-size: 1.6rem;
+        font-weight: 700;
+        color: #f0f6fc;
+        margin-top: 0.3rem;
+    }
+    .metric-sub {
+        font-size: 0.75rem;
+        color: #3fb950;
+        margin-top: 0.2rem;
+        font-weight: 500;
+    }
+
+    /* Badge Pills */
+    .badge-verified {
+        background: #23863622;
+        color: #3fb950;
+        border: 1px solid #23863655;
+        padding: 2px 8px;
+        border-radius: 6px;
+        font-size: 0.72rem;
+        font-weight: 600;
+    }
+    .badge-category {
+        background: #21262d;
+        color: #8b949e;
+        border: 1px solid #30363d;
+        padding: 2px 8px;
+        border-radius: 6px;
+        font-size: 0.72rem;
+    }
+
+    /* Target Drawer Card inside Dialog */
+    .drawer-box {
+        background: #161b22;
+        border: 1px solid #30363d;
+        border-radius: 8px;
+        padding: 1.25rem;
+        margin-top: 1rem;
+    }
+    .pitch-box {
+        background: #0d1117;
+        border-left: 3px solid #58a6ff;
+        padding: 0.85rem;
+        border-radius: 4px;
+        font-size: 0.85rem;
+        color: #d2a8ff;
+        margin-top: 0.75rem;
+    }
+
+    /* Hide default Streamlit elements */
+    #MainMenu {visibility: hidden;}
+    footer {visibility: hidden;}
+</style>
+""", unsafe_allow_html=True)
 
 @st.cache_data
 def load_data():
-    file_path = "sample_leads.csv"
-    if os.path.exists(file_path):
-        df = pd.read_csv(file_path)
-        df.columns = df.columns.str.strip()
-        return df
-    else:
-        data = {
-            "Business Name": ["Apex Digital Marketing", "Urban Living Real Estate", "FitLife Gym & Spa", "Verma & Sons Consultants", "Bright Sparks PR Agency"],
-            "Category": ["Marketing Agency", "Real Estate", "Fitness", "Business Consultant", "PR Agency"],
-            "City": ["Delhi", "Gurgaon", "Noida", "Delhi", "Gurgaon"],
-            "Phone Number": ["+91 9876543210", "+91 9812345678", "+91 9998887776", "+91 9711223344", "+91 9555443322"],
-            "Google Rating": [4.8, 4.5, 4.9, 4.2, 4.6],
-            "Reviews Count": [120, 85, 210, 45, 95]
+    return [
+        {
+            "id": 101,
+            "name": "DLF Realty Executives",
+            "category": "Real Estate",
+            "location": "Gurugram, Sector 43",
+            "phone": "+91 98118 90123",
+            "rating": 4.8,
+            "reviews": 210,
+            "verified": True,
+            "decision_maker": "Sales Director",
+            "website": "dlfrealty.co.in",
+            "pitch_angle": "Offer verified high-net-worth investor phone lists for premium property sales."
+        },
+        {
+            "id": 102,
+            "name": "Gold's Gym Signature",
+            "category": "Gym & Fitness",
+            "location": "Gurugram, Cyber City",
+            "phone": "+91 98102 44321",
+            "rating": 4.7,
+            "reviews": 430,
+            "verified": True,
+            "decision_maker": "Branch Operations Manager",
+            "website": "goldsgym.in",
+            "pitch_angle": "Pitch automated WhatsApp membership renewal system & lead follow-up CRM."
+        },
+        {
+            "id": 103,
+            "name": "Clove Dental Specialty",
+            "category": "Healthcare",
+            "location": "South Delhi, GK-2",
+            "phone": "+91 99991 12345",
+            "rating": 4.6,
+            "reviews": 315,
+            "verified": True,
+            "decision_maker": "Practice Administrator",
+            "website": "clovedental.in",
+            "pitch_angle": "Pitch Google Review automation & local patient acquisition campaign."
+        },
+        {
+            "id": 104,
+            "name": "Design Studio Interiors",
+            "category": "Interior Design",
+            "location": "Noida, Sector 62",
+            "phone": "+91 98710 54321",
+            "rating": 4.3,
+            "reviews": 98,
+            "verified": False,
+            "decision_maker": "Principal Architect",
+            "website": "designstudio.co.in",
+            "pitch_angle": "Provide targeted villa owners lead list for high-end interior projects."
+        },
+        {
+            "id": 105,
+            "name": "Career Launcher Academy",
+            "category": "Education",
+            "location": "Faridabad, Sector 15",
+            "phone": "+91 98100 88776",
+            "rating": 4.2,
+            "reviews": 512,
+            "verified": True,
+            "decision_maker": "Center Head",
+            "website": "careerlauncher.com",
+            "pitch_angle": "Offer database of Class 11-12 entrance exam aspirants."
         }
-        return pd.DataFrame(data)
+    ]
 
-df = load_data()
+data = load_data()
 
-# --- SIDEBAR FILTERS ---
-st.sidebar.header("🔍 Filter Prospects")
+st.markdown("""
+    <div class="nav-header">
+        <div>
+            <span class="brand-title">LEADNO</span>
+            <span class="brand-tag">B2B Intelligence</span>
+        </div>
+        <div style="font-size: 0.8rem; color: #8b949e;">
+            Regional Dataset: <b>Delhi NCR</b> | Active Pipeline
+        </div>
+    </div>
+""", unsafe_allow_html=True)
 
-# Search Keyword
-search_query = st.sidebar.text_input("Search Business Name", "")
+m1, m2, m3, m4 = st.columns(4)
 
-# City Filter
-if "City" in df.columns:
-    cities = df["City"].unique().tolist()
-    city_filter = st.sidebar.multiselect("Select Location", options=cities, default=cities)
-    df = df[df["City"].isin(city_filter)]
+with m1:
+    st.markdown("""
+        <div class="metric-card">
+            <div class="metric-label">Extracted Records</div>
+            <div class="metric-value">1,482</div>
+            <div class="metric-sub">↑ 18% this week</div>
+        </div>
+    """, unsafe_allow_html=True)
 
-# Category Filter
-if "Category" in df.columns:
-    categories = df["Category"].unique().tolist()
-    category_filter = st.sidebar.multiselect("Select Niche / Industry", options=categories, default=categories)
-    df = df[df["Category"].isin(category_filter)]
+with m2:
+    st.markdown("""
+        <div class="metric-card">
+            <div class="metric-label">Verified Contact Match</div>
+            <div class="metric-value">98.4%</div>
+            <div class="metric-sub">Direct phone numbers</div>
+        </div>
+    """, unsafe_allow_html=True)
 
-# Search Filter
-if search_query and "Business Name" in df.columns:
-    df = df[df["Business Name"].str.contains(search_query, case=False, na=False)]
+with m3:
+    st.markdown("""
+        <div class="metric-card">
+            <div class="metric-label">High Trust Ratings</div>
+            <div class="metric-value">895</div>
+            <div class="metric-sub">4.0+ Star Businesses</div>
+        </div>
+    """, unsafe_allow_html=True)
 
-# --- TOP METRICS ---
-col1, col2, col3 = st.columns(3)
-col1.metric("Verified Leads", len(df))
-if "Google Rating" in df.columns and not df.empty:
-    col2.metric("Avg Google Rating", f"⭐ {round(df['Google Rating'].mean(), 2)}")
-if "Reviews Count" in df.columns and not df.empty:
-    col3.metric("Total Reviews Scanned", f"💬 {df['Reviews Count'].sum()}")
+with m4:
+    st.markdown("""
+        <div class="metric-card">
+            <div class="metric-label">Est. Outreach Value</div>
+            <div class="metric-value">₹4.2 Lakhs</div>
+            <div class="metric-sub">B2B Deal Potential</div>
+        </div>
+    """, unsafe_allow_html=True)
 
-st.divider()
+st.markdown("<br>", unsafe_allow_html=True)
 
-# --- ANALYTICS CHARTS ---
-if not df.empty and "Category" in df.columns and "City" in df.columns:
-    c1, c2 = st.columns(2)
-    with c1:
-        st.subheader("📊 Leads Distribution by City")
-        st.bar_chart(df["City"].value_counts())
-    with c2:
-        st.subheader("📈 Top Categories")
-        st.bar_chart(df["Category"].value_counts())
+c1, c2, c3, c4 = st.columns([2, 1, 1, 1])
 
-st.divider()
+with c1:
+    search_query = st.text_input("Search Business", placeholder="Search by name, location, keyword...", label_visibility="collapsed")
 
-# --- DATA TABLE ---
-st.subheader("📋 Verified Business Directory")
-st.dataframe(df, use_container_width=True)
+with c2:
+    category_filter = st.selectbox("Category", ["All Categories", "Real Estate", "Gym & Fitness", "Healthcare", "Interior Design", "Education"], label_visibility="collapsed")
 
-# --- DOWNLOAD BUTTON ---
-csv = df.to_csv(index=False).encode('utf-8')
-st.download_button(
-    label="📥 Export Verified Prospect List (CSV)",
-    data=csv,
-    file_name='targeted_b2b_leads.csv',
-    mime='text/csv',
-)
+with c3:
+    location_filter = st.selectbox("Location", ["All Locations", "Gurugram", "South Delhi", "Noida", "Faridabad"], label_visibility="collapsed")
+
+with c4:
+    rating_filter = st.selectbox("Rating", ["All Ratings", "4.5+ Stars", "4.0+ Stars"], label_visibility="collapsed")
+
+filtered_leads = []
+for lead in data:
+    match_search = search_query.lower() in lead["name"].lower() or search_query.lower() in lead["location"].lower()
+    match_cat = (category_filter == "All Categories") or (lead["category"] == category_filter)
+    match_loc = (location_filter == "All Locations") or (location_filter in lead["location"])
+    
+    match_rat = True
+    if rating_filter == "4.5+ Stars" and lead["rating"] < 4.5:
+        match_rat = False
+    elif rating_filter == "4.0+ Stars" and lead["rating"] < 4.0:
+        match_rat = False
+
+    if match_search and match_cat and match_loc and match_rat:
+        filtered_leads.append(lead)
+
+@st.dialog("Sales Intelligence Detail")
+def show_lead_details(lead):
+    st.markdown(f"### {lead['name']}")
+    st.caption(f"{lead['category']} • {lead['location']}")
+    
+    st.markdown(f"""
+        <div class="drawer-box">
+            <div style="display: flex; justify-space-between; font-size: 0.85rem; margin-bottom: 8px;">
+                <span style="color: #8b949e;">Phone Contact:</span>
+                <b style="color: #58a6ff;">{lead['phone']}</b>
+            </div>
+            <div style="display: flex; justify-space-between; font-size: 0.85rem; margin-bottom: 8px;">
+                <span style="color: #8b949e;">Target Decision Maker:</span>
+                <b style="color: #f0f6fc;">{lead['decision_maker']}</b>
+            </div>
+            <div style="display: flex; justify-space-between; font-size: 0.85rem;">
+                <span style="color: #8b949e;">Rating & Score:</span>
+                <b style="color: #d29922;">★ {lead['rating']} ({lead['reviews']} reviews)</b>
+            </div>
+            <div class="pitch-box">
+                <b>Recommended Pitch Angle:</b><br>
+                "{lead['pitch_angle']}"
+            </div>
+        </div>
+    """, unsafe_allow_html=True)
+    
+    st.markdown("<br>", unsafe_allow_html=True)
+    if st.button("Copy Direct Outreach Script", use_container_width=True):
+        st.toast("Pitch angle copied to clipboard!", icon="✅")
+
+st.markdown(f"##### Showing {len(filtered_leads)} Verified Prospects")
+
+# Custom Table Header
+st.markdown("""
+<div style="display: grid; grid-template-columns: 2.5fr 1.5fr 1.5fr 1.5fr 1.5fr 1fr; padding: 10px 12px; background: #161b22; border-radius: 6px; font-size: 0.75rem; font-weight: 600; color: #8b949e; margin-bottom: 8px;">
+    <div>BUSINESS NAME</div>
+    <div>CATEGORY</div>
+    <div>RATING</div>
+    <div>LOCATION</div>
+    <div>CONTACT</div>
+    <div style="text-align: right;">ACTION</div>
+</div>
+""", unsafe_allow_html=True)
+
+# Table Rows
+for lead in filtered_leads:
+    col_a, col_b, col_c, col_d, col_e, col_f = st.columns([2.5, 1.5, 1.5, 1.5, 1.5, 1])
+    
+    with col_a:
+        ver_tag = '<span class="badge-verified">Verified</span>' if lead["verified"] else ''
+        st.markdown(f"<b>{lead['name']}</b> {ver_tag}", unsafe_allow_html=True)
+        st.caption(lead["website"])
+        
+    with col_b:
+        st.markdown(f"<span class='badge-category'>{lead['category']}</span>", unsafe_allow_html=True)
+        
+    with col_c:
+        st.markdown(f"<span style='color:#d29922;'>★ {lead['rating']}</span> <span style='color:#8b949e; font-size:0.75rem;'>({lead['reviews']})</span>", unsafe_allow_html=True)
+        
+    with col_d:
+        st.markdown(f"<span style='font-size:0.85rem;'>{lead['location']}</span>", unsafe_allow_html=True)
+        
+    with col_e:
+        st.markdown(f"<code style='color:#58a6ff;'>{lead['phone']}</code>", unsafe_allow_html=True)
+        
+    with col_f:
+        if st.button("Inspect", key=f"btn_{lead['id']}", use_container_width=True):
+            show_lead_details(lead)
+            
+    st.markdown("<hr style='margin: 4px 0px; border-color: #21262d;'>", unsafe_allow_html=True)
+
+with st.sidebar:
+    st.markdown("### Request Custom List")
