@@ -10,7 +10,7 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-# Complete Modern UI CSS with Compact Action Buttons matching Category Style
+# Complete Modern UI CSS with Refined Premium Header Badge & Compact Actions
 st.markdown("""
 <style>
     /* Global Reset & Dark Background */
@@ -25,30 +25,32 @@ st.markdown("""
     footer {visibility: hidden;}
     header {visibility: hidden;}
 
-    /* Navigation Header */
+    /* Navigation Header - Pixel Perfect Alignment */
     .nav-header {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        padding: 0.8rem 0;
+        padding: 1rem 0 1.2rem 0;
         border-bottom: 1px solid #21262d;
         margin-bottom: 1.5rem;
     }
     .brand-title {
-        font-size: 1.3rem;
+        font-size: 1.4rem;
         font-weight: 800;
         color: #f0f6fc;
         letter-spacing: -0.03em;
     }
+    /* Refined Premium Badge */
     .brand-tag {
         background: #1f6feb1a;
-        color: #388bfd;
+        color: #58a6ff;
         border: 1px solid #1f6feb4d;
-        font-size: 0.7rem;
-        padding: 2px 8px;
-        border-radius: 12px;
+        font-size: 0.78rem;
+        padding: 4px 10px;
+        border-radius: 14px;
         font-weight: 600;
-        margin-left: 8px;
+        margin-left: 10px;
+        letter-spacing: -0.01em;
     }
 
     /* Metric Cards */
@@ -97,7 +99,7 @@ st.markdown("""
         border-radius: 6px !important;
     }
 
-    /* Badges */
+    /* Category Badges in Table */
     .badge-cat {
         background: #21262d; 
         color: #8b949e; 
@@ -168,7 +170,7 @@ def load_data():
 
 data = load_data()
 
-# Header Section
+# Header Section with Refined Premium Badge
 st.markdown("""
     <div class="nav-header">
         <div>
@@ -176,7 +178,7 @@ st.markdown("""
             <span class="brand-tag">B2B Intelligence Engine</span>
         </div>
         <div style="font-size: 0.8rem; color: #8b949e;">
-            Pipeline Status: <b>Live Multi-Niche Scraper Active</b>
+            Pipeline Status: <b style="color: #3fb950;">Live Multi-Niche Scraper Active</b>
         </div>
     </div>
 """, unsafe_allow_html=True)
