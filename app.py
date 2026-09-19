@@ -1,6 +1,5 @@
 import streamlit as st
 import pandas as pd
-import json
 import os
 
 # Page Config
@@ -11,35 +10,22 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-# Clay.com / Linear Style - Advanced UI with Micro-interactions & Hover Effects
+# Complete Modern Dark UI CSS with Fixed Input/Button Backgrounds
 st.markdown("""
 <style>
-   /* Fix for Streamlit White Input/Text Boxes */
-    .stTextInput input, .stSelectbox select, div[data-baseweb="select"] {
-        background-color: #161b22 !important;
-        color: #f0f6fc !important;
-        -webkit-text-fill-color: #f0f6fc !important;
-    }
-    
-    /* Input Container Override */
-    div[data-baseweb="input"], div[data-baseweb="select"], div[data-baseweb="base-input"] {
-        background-color: #161b22 !important;
-        border: 1px solid #30363d !important;
-        color: #f0f6fc !important;
-    }
-
-    /* Placeholder text visibility */
-    input::placeholder {
-        color: #8b949e !important;
-        -webkit-text-fill-color: #8b949e !important;
-    }
+    /* Global Reset & Dark Background */
     .stApp {
-        background-color: #0b0f17;
-        color: #e6edf3;
+        background-color: #0b0f17 !important;
+        color: #e6edf3 !important;
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     }
     
-    /* Sleek Navigation Bar */
+    /* Hide Streamlit Header & Footer */
+    #MainMenu {visibility: hidden;}
+    footer {visibility: hidden;}
+    header {visibility: hidden;}
+
+    /* Navigation Header */
     .nav-header {
         display: flex;
         align-items: center;
@@ -65,7 +51,7 @@ st.markdown("""
         margin-left: 8px;
     }
 
-    /* Modern Metric Cards */
+    /* Metric Cards */
     .metric-card {
         background: #161b22;
         border: 1px solid #30363d;
@@ -92,49 +78,59 @@ st.markdown("""
         margin-top: 0.2rem;
     }
 
-    /* Interactive Data Row Hover & Glass Styling */
-    .lead-row {
-        display: grid;
-        grid-template-columns: 2.2fr 1.3fr 1.2fr 1.5fr 1.5fr 1fr;
-        padding: 10px 12px;
-        background: #161b22;
-        border-radius: 6px;
-        align-items: center;
-        margin-bottom: 6px;
-        border: 1px solid #30363d;
-        transition: all 0.15s ease-in-out;
-    }
-    .lead-row:hover {
-        background: #1c2128;
-        border-color: #8b949e;
-        transform: scale(1.002);
-    }
-
-    /* Inputs & Badges */
-    div[data-baseweb="input"] > div, div[data-baseweb="select"] > div {
+    /* Fix Streamlit Text Inputs & Selectboxes Completely */
+    .stTextInput input {
         background-color: #161b22 !important;
-        border-color: #30363d !important;
         color: #f0f6fc !important;
+        border: 1px solid #30363d !important;
         border-radius: 6px !important;
     }
-    input { color: #f0f6fc !important; }
-
-    .badge-verified {
-        background: #23863622; color: #3fb950; border: 1px solid #23863655;
-        padding: 2px 7px; border-radius: 6px; font-size: 0.7rem; font-weight: 600;
+    .stTextInput input:focus {
+        border-color: #58a6ff !important;
+        box-shadow: 0 0 0 1px #58a6ff !important;
     }
+    
+    /* Selectbox Styling Override */
+    div[data-baseweb="select"] > div {
+        background-color: #161b22 !important;
+        color: #f0f6fc !important;
+        border: 1px solid #30363d !important;
+        border-radius: 6px !important;
+    }
+    span[data-baseweb="tag"] {
+        background-color: #21262d !important;
+        color: #f0f6fc !important;
+    }
+
+    /* Fix Streamlit Native Buttons to match Dark Theme */
+    .stButton button {
+        background-color: #21262d !important;
+        color: #c9d1d9 !important;
+        border: 1px solid #30363d !important;
+        border-radius: 6px !important;
+        font-weight: 500 !important;
+        width: 100%;
+        transition: all 0.2s ease;
+    }
+    .stButton button:hover {
+        background-color: #30363d !important;
+        border-color: #8b949e !important;
+        color: #ffffff !important;
+    }
+
+    /* Badges */
     .badge-cat {
-        background: #21262d; color: #8b949e; border: 1px solid #30363d;
-        padding: 2px 7px; border-radius: 6px; font-size: 0.72rem;
+        background: #21262d; 
+        color: #8b949e; 
+        border: 1px solid #30363d;
+        padding: 3px 8px; 
+        border-radius: 6px; 
+        font-size: 0.75rem;
     }
-
-    #MainMenu {visibility: hidden;}
-    footer {visibility: hidden;}
-    header {visibility: hidden;}
 </style>
 """, unsafe_allow_html=True)
 
-# Load CSV and accurately match exact column names
+# Load CSV and safely map columns
 @st.cache_data
 def load_data():
     if os.path.exists("sample_leads.csv"):
@@ -144,20 +140,20 @@ def load_data():
             for idx, row in df.iterrows():
                 records.append({
                     "id": idx,
-                    "Business Name": str(row.get("Business Name", "Unknown")),
+                    "Business Name": str(row.get("Business Name", "Unknown Business")),
                     "Category": str(row.get("Category", "General")),
                     "Rating": str(row.get("Rating", "★ 4.5 (100)")),
                     "Location": str(row.get("Location", "Gurgaon")),
                     "Contact": str(row.get("Contact", "+91 98000 00000")),
-                    "Decision Maker": str(row.get("Decision Maker", "Owner")),
-                    "Pitch Angle": str(row.get("Pitch Angle", "Direct outreach for expansion")),
+                    "Decision Maker": str(row.get("Decision Maker", "Owner / Manager")),
+                    "Pitch Angle": str(row.get("Pitch Angle", "Direct outreach for business expansion.")),
                     "Status": str(row.get("Status", "Verified"))
                 })
             return records
-        except Exception:
-            pass
+        except Exception as e:
+            st.error(f"Error reading CSV: {e}")
             
-    # Fallback Data if CSV missing
+    # Fallback Default Data
     return [
         {
             "id": 0,
@@ -166,15 +162,15 @@ def load_data():
             "Rating": "★ 4.8 (320)",
             "Location": "DLF Phase 4",
             "Contact": "+91 98101 23456",
-            "Decision Maker": "Lead Dentist & Practice Owner",
-            "Pitch Angle": "Pitch Google Review automation & local SEO boost",
+            "Decision Maker": "Lead Dentist",
+            "Pitch Angle": "Google Review automation & local SEO boost",
             "Status": "Verified"
         }
     ]
 
 data = load_data()
 
-# Header Navigation
+# Header Section
 st.markdown("""
     <div class="nav-header">
         <div>
@@ -182,7 +178,7 @@ st.markdown("""
             <span class="brand-tag">B2B Intelligence Engine</span>
         </div>
         <div style="font-size: 0.8rem; color: #8b949e;">
-            Active Pipeline: <b>Live Multi-Niche Scraper</b>
+            Pipeline Status: <b>Live Multi-Niche Scraper Active</b>
         </div>
     </div>
 """, unsafe_allow_html=True)
@@ -194,7 +190,7 @@ total_records = len(data)
 with m1:
     st.markdown(f'<div class="metric-card"><div class="metric-label">Total Leads</div><div class="metric-value">{total_records}</div></div>', unsafe_allow_html=True)
 with m2:
-    st.markdown(f'<div class="metric-card"><div class="metric-label">Niche Verticals</div><div class="metric-value">4 Active</div></div>', unsafe_allow_html=True)
+    st.markdown(f'<div class="metric-card"><div class="metric-label">Niche Verticals</div><div class="metric-value">Active</div></div>', unsafe_allow_html=True)
 with m3:
     st.markdown(f'<div class="metric-card"><div class="metric-label">Verification Rate</div><div class="metric-value">100%</div></div>', unsafe_allow_html=True)
 with m4:
@@ -206,7 +202,7 @@ st.markdown("<br>", unsafe_allow_html=True)
 c1, c2, c3 = st.columns([2.5, 1.3, 1.3])
 
 with c1:
-    search_query = st.text_input("Instant Search", placeholder="Search by name, location, keyword...", label_visibility="collapsed")
+    search_query = st.text_input("Instant Search", placeholder="🔍 Search by business name, location, keyword...", label_visibility="collapsed")
 
 categories_list = ["All Categories"] + sorted(list(set(d.get("Category") for d in data)))
 locations_list = ["All Locations"] + sorted(list(set(d.get("Location") for d in data)))
@@ -232,9 +228,11 @@ for lead in data:
     if match_search and match_cat and match_loc:
         filtered_leads.append(lead)
 
-# Table Header matching your exact column names
+st.markdown("<br>", unsafe_allow_html=True)
+
+# Table Header matching your exact columns: BUSINESS NAME, CATEGORY, RATING, LOCATION, CONTACT, ACTION
 st.markdown("""
-<div style="display: grid; grid-template-columns: 2.2fr 1.3fr 1.2fr 1.5fr 1.5fr 1fr; padding: 8px 12px; font-size: 0.72rem; font-weight: 600; color: #8b949e; letter-spacing: 0.05em; margin-bottom: 4px;">
+<div style="display: grid; grid-template-columns: 2.2fr 1.3fr 1.2fr 1.5fr 1.5fr 1fr; padding: 10px 12px; font-size: 0.72rem; font-weight: 700; color: #8b949e; letter-spacing: 0.05em; border-bottom: 1px solid #30363d; margin-bottom: 8px;">
     <div>BUSINESS NAME</div>
     <div>CATEGORY</div>
     <div>RATING</div>
@@ -244,45 +242,22 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-# Dialog for Interactive Lead Inspection (Clay style drawer/modal)
-if hasattr(st, "dialog"):
-    @st.dialog("Sales Intelligence & Pitch Inspector")
-    def show_lead_details(lead):
-        st.markdown(f"### {lead.get('Business Name')}")
-        st.caption(f"{lead.get('Category')} • {lead.get('Location')}")
-        st.markdown("---")
-        
-        col_x, col_y = st.columns(2)
-        with col_x:
-            st.write(f"**Contact Phone:** `{lead.get('Contact')}`")
-            st.write(f"**Decision Maker:** {lead.get('Decision Maker')}")
-        with col_y:
-            st.write(f"**Rating Metric:** {lead.get('Rating')}")
-            st.write(f"**Status:** {lead.get('Status')}")
-        
-        st.info(f"**Target Sales Pitch Angle:**\n\"{lead.get('Pitch Angle')}\"")
-        if st.button("Copy Complete Prospect Profile", use_container_width=True):
-            st.toast("Profile copied to clipboard!", icon="✅")
-
-# Render Rows with Micro-interactions
+# Render Rows
 for idx, lead in enumerate(filtered_leads):
     cols = st.columns([2.2, 1.3, 1.2, 1.5, 1.5, 1])
     
     with cols[0]:
-        st.markdown(f"<b>{lead.get('Business Name')}</b>", unsafe_allow_html=True)
+        st.markdown(f"<div style='padding-top: 6px; font-weight: 600; color: #f0f6fc;'>{lead.get('Business Name')}</div>", unsafe_allow_html=True)
     with cols[1]:
-        st.markdown(f"<span class='badge-cat'>{lead.get('Category')}</span>", unsafe_allow_html=True)
+        st.markdown(f"<div style='padding-top: 6px;'><span class='badge-cat'>{lead.get('Category')}</span></div>", unsafe_allow_html=True)
     with cols[2]:
-        st.markdown(f"<span style='color:#d29922; font-weight:500;'>{lead.get('Rating')}</span>", unsafe_allow_html=True)
+        st.markdown(f"<div style='padding-top: 6px; color:#d29922; font-weight:500;'>{lead.get('Rating')}</div>", unsafe_allow_html=True)
     with cols[3]:
-        st.markdown(f"<span style='color:#c9d1d9; font-size:0.85rem;'>{lead.get('Location')}</span>", unsafe_allow_html=True)
+        st.markdown(f"<div style='padding-top: 6px; color:#c9d1d9; font-size:0.85rem;'>{lead.get('Location')}</div>", unsafe_allow_html=True)
     with cols[4]:
-        st.markdown(f"<code style='color:#58a6ff; background:#161b22;'>{lead.get('Contact')}</code>", unsafe_allow_html=True)
+        st.markdown(f"<div style='padding-top: 6px;'><code style='color:#58a6ff; background:#161b22; padding: 2px 6px; border-radius: 4px;'>{lead.get('Contact')}</code></div>", unsafe_allow_html=True)
     with cols[5]:
-        if st.button("Inspect", key=f"inspect_{idx}", use_container_width=True):
-            if hasattr(st, "dialog"):
-                show_lead_details(lead)
-            else:
-                st.info(lead.get('Pitch Angle'))
+        if st.button("Inspect", key=f"btn_{idx}"):
+            st.toast(f"Inspecting: {lead.get('Business Name')}", icon="⚡")
 
    
