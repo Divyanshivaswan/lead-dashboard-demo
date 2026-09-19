@@ -19,15 +19,21 @@ st.markdown("""
         color: #e6edf3 !important;
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     }
-    /* Fix for the First Search Input Box container */
+    /* First Search Input Box ko White banane ke liye */
     .stTextInput div[data-baseweb="input"] {
-        background-color: #161b22 !important;
-        border: 1px solid #30363d !important;
+        background-color: #ffffff !important;
+        border: 1px solid #d0d7de !important;
         border-radius: 6px !important;
     }
     
-    .stTextInput div[data-baseweb="input"]:hover {
-        border-color: #58a6ff !important;
+    .stTextInput input {
+        color: #24292f !important;
+        -webkit-text-fill-color: #24292f !important;
+    }
+
+    .stTextInput input::placeholder {
+        color: #57606a !important;
+        -webkit-text-fill-color: #57606a !important;
     }
     
     /* Hide Streamlit Header & Footer */
