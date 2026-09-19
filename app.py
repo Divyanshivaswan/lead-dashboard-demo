@@ -10,7 +10,7 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-# Complete Modern UI CSS with Uniform Top Layout & Styled Search Box
+# Complete Modern UI CSS with Compact Action Buttons matching Category Style
 st.markdown("""
 <style>
     /* Global Reset & Dark Background */
@@ -74,7 +74,7 @@ st.markdown("""
         margin-top: 0.2rem;
     }
 
-    /* Search Input Box Styling (Matching White Box Requirement) */
+    /* Search Input Box Styling (White Box) */
     .stTextInput div[data-baseweb="input"] {
         background-color: #ffffff !important;
         border: 1px solid #d0d7de !important;
@@ -105,6 +105,25 @@ st.markdown("""
         padding: 3px 8px; 
         border-radius: 6px; 
         font-size: 0.75rem;
+    }
+
+    /* Compact Sleek Action Button matching Category style */
+    .stButton button {
+        background-color: #21262d !important;
+        color: #58a6ff !important;
+        border: 1px solid #30363d !important;
+        border-radius: 6px !important;
+        font-size: 0.75rem !important;
+        font-weight: 500 !important;
+        padding: 2px 10px !important;
+        min-height: unset !important;
+        width: 100%;
+        transition: all 0.2s ease;
+    }
+    .stButton button:hover {
+        background-color: #30363d !important;
+        border-color: #58a6ff !important;
+        color: #ffffff !important;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -162,7 +181,7 @@ st.markdown("""
     </div>
 """, unsafe_allow_html=True)
 
-# Metrics Grid (Ek line mein perfectly aligned)
+# Metrics Grid
 m1, m2, m3, m4 = st.columns(4)
 total_records = len(data)
 
@@ -177,7 +196,7 @@ with m4:
 
 st.markdown("<br>", unsafe_allow_html=True)
 
-# Instant Multi-Filters & Search Bar (Ek line mein balanced layout)
+# Instant Multi-Filters & Search Bar
 c1, c2, c3 = st.columns([2.5, 1.3, 1.3])
 
 with c1:
@@ -209,7 +228,7 @@ for lead in data:
 
 st.markdown("<br>", unsafe_allow_html=True)
 
-# Table Header matching exact columns: BUSINESS NAME, CATEGORY, RATING, LOCATION, CONTACT, ACTION
+# Table Header
 st.markdown("""
 <div style="display: grid; grid-template-columns: 2.2fr 1.3fr 1.2fr 1.5fr 1.5fr 1fr; padding: 10px 12px; font-size: 0.72rem; font-weight: 700; color: #8b949e; letter-spacing: 0.05em; border-bottom: 1px solid #30363d; margin-bottom: 8px;">
     <div>BUSINESS NAME</div>
