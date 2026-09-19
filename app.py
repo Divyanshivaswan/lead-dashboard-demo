@@ -115,9 +115,9 @@ st.markdown("""
 # Load Data Dynamically from 'leads.csv' if available, else fallback to rich default
 @st.cache_data
 def load_data():
-    if os.path.exists("leads.csv"):
+    if os.path.exists("sample_leads.csv"):
         try:
-            df = pd.read_csv("leads.csv")
+            df = pd.read_csv("sample_leads.csv")
             return df.to_dict(orient="records")
         except Exception:
             pass
