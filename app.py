@@ -19,6 +19,16 @@ st.markdown("""
         color: #e6edf3 !important;
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     }
+    /* Fix for the First Search Input Box container */
+    .stTextInput div[data-baseweb="input"] {
+        background-color: #161b22 !important;
+        border: 1px solid #30363d !important;
+        border-radius: 6px !important;
+    }
+    
+    .stTextInput div[data-baseweb="input"]:hover {
+        border-color: #58a6ff !important;
+    }
     
     /* Hide Streamlit Header & Footer */
     #MainMenu {visibility: hidden;}
