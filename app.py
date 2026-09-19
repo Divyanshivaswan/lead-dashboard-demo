@@ -10,7 +10,7 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-# Complete Modern Dark UI CSS with Fixed Input/Button Backgrounds
+# Complete Modern UI CSS with Uniform Top Layout & Styled Search Box
 st.markdown("""
 <style>
     /* Global Reset & Dark Background */
@@ -18,22 +18,6 @@ st.markdown("""
         background-color: #0b0f17 !important;
         color: #e6edf3 !important;
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    }
-    /* First Search Input Box ko White banane ke liye */
-    .stTextInput div[data-baseweb="input"] {
-        background-color: #ffffff !important;
-        border: 1px solid #d0d7de !important;
-        border-radius: 6px !important;
-    }
-    
-    .stTextInput input {
-        color: #24292f !important;
-        -webkit-text-fill-color: #24292f !important;
-    }
-
-    .stTextInput input::placeholder {
-        color: #57606a !important;
-        -webkit-text-fill-color: #57606a !important;
     }
     
     /* Hide Streamlit Header & Footer */
@@ -74,11 +58,7 @@ st.markdown("""
         border-radius: 8px;
         padding: 1rem;
         margin-bottom: 0.5rem;
-        transition: all 0.2s ease;
-    }
-    .metric-card:hover {
-        border-color: #58a6ff;
-        transform: translateY(-2px);
+        height: 100%;
     }
     .metric-label {
         font-size: 0.72rem;
@@ -88,50 +68,33 @@ st.markdown("""
         font-weight: 600;
     }
     .metric-value {
-        font-size: 1.5rem;
+        font-size: 1.4rem;
         font-weight: 700;
         color: #f0f6fc;
         margin-top: 0.2rem;
     }
 
-    /* Fix Streamlit Text Inputs & Selectboxes Completely */
-    .stTextInput input {
-        background-color: #161b22 !important;
-        color: #f0f6fc !important;
-        border: 1px solid #30363d !important;
+    /* Search Input Box Styling (Matching White Box Requirement) */
+    .stTextInput div[data-baseweb="input"] {
+        background-color: #ffffff !important;
+        border: 1px solid #d0d7de !important;
         border-radius: 6px !important;
     }
-    .stTextInput input:focus {
-        border-color: #58a6ff !important;
-        box-shadow: 0 0 0 1px #58a6ff !important;
+    .stTextInput input {
+        color: #24292f !important;
+        -webkit-text-fill-color: #24292f !important;
+    }
+    .stTextInput input::placeholder {
+        color: #57606a !important;
+        -webkit-text-fill-color: #57606a !important;
     }
     
-    /* Selectbox Styling Override */
+    /* Selectbox Styling */
     div[data-baseweb="select"] > div {
         background-color: #161b22 !important;
         color: #f0f6fc !important;
         border: 1px solid #30363d !important;
         border-radius: 6px !important;
-    }
-    span[data-baseweb="tag"] {
-        background-color: #21262d !important;
-        color: #f0f6fc !important;
-    }
-
-    /* Fix Streamlit Native Buttons to match Dark Theme */
-    .stButton button {
-        background-color: #21262d !important;
-        color: #c9d1d9 !important;
-        border: 1px solid #30363d !important;
-        border-radius: 6px !important;
-        font-weight: 500 !important;
-        width: 100%;
-        transition: all 0.2s ease;
-    }
-    .stButton button:hover {
-        background-color: #30363d !important;
-        border-color: #8b949e !important;
-        color: #ffffff !important;
     }
 
     /* Badges */
@@ -199,26 +162,26 @@ st.markdown("""
     </div>
 """, unsafe_allow_html=True)
 
-# Metrics Grid
+# Metrics Grid (Ek line mein perfectly aligned)
 m1, m2, m3, m4 = st.columns(4)
 total_records = len(data)
 
 with m1:
     st.markdown(f'<div class="metric-card"><div class="metric-label">Total Leads</div><div class="metric-value">{total_records}</div></div>', unsafe_allow_html=True)
 with m2:
-    st.markdown(f'<div class="metric-card"><div class="metric-label">Niche Verticals</div><div class="metric-value">Active</div></div>', unsafe_allow_html=True)
+    st.markdown(f'<div class="metric-card"><div class="metric-label">Niche Verticals</div><div class="metric-value">4 Active</div></div>', unsafe_allow_html=True)
 with m3:
     st.markdown(f'<div class="metric-card"><div class="metric-label">Verification Rate</div><div class="metric-value">100%</div></div>', unsafe_allow_html=True)
 with m4:
-    st.markdown(f'<div class="metric-card"><div class="metric-label">Engine Status</div><div class="metric-value" style="color:#3fb950; font-size:1.1rem; margin-top:5px;">● Connected</div></div>', unsafe_allow_html=True)
+    st.markdown(f'<div class="metric-card"><div class="metric-label">Engine Status</div><div class="metric-value" style="color:#3fb950; font-size:1.1rem; margin-top:2px;">● Connected</div></div>', unsafe_allow_html=True)
 
 st.markdown("<br>", unsafe_allow_html=True)
 
-# Instant Multi-Filters & Search Bar
+# Instant Multi-Filters & Search Bar (Ek line mein balanced layout)
 c1, c2, c3 = st.columns([2.5, 1.3, 1.3])
 
 with c1:
-    search_query = st.text_input("Instant Search", placeholder="🔍 Search by business name, location, keyword...", label_visibility="collapsed")
+    search_query = st.text_input("Instant Search", placeholder="🔍 Search business name, location...", label_visibility="collapsed")
 
 categories_list = ["All Categories"] + sorted(list(set(d.get("Category") for d in data)))
 locations_list = ["All Locations"] + sorted(list(set(d.get("Location") for d in data)))
@@ -246,7 +209,7 @@ for lead in data:
 
 st.markdown("<br>", unsafe_allow_html=True)
 
-# Table Header matching your exact columns: BUSINESS NAME, CATEGORY, RATING, LOCATION, CONTACT, ACTION
+# Table Header matching exact columns: BUSINESS NAME, CATEGORY, RATING, LOCATION, CONTACT, ACTION
 st.markdown("""
 <div style="display: grid; grid-template-columns: 2.2fr 1.3fr 1.2fr 1.5fr 1.5fr 1fr; padding: 10px 12px; font-size: 0.72rem; font-weight: 700; color: #8b949e; letter-spacing: 0.05em; border-bottom: 1px solid #30363d; margin-bottom: 8px;">
     <div>BUSINESS NAME</div>
@@ -275,5 +238,3 @@ for idx, lead in enumerate(filtered_leads):
     with cols[5]:
         if st.button("Inspect", key=f"btn_{idx}"):
             st.toast(f"Inspecting: {lead.get('Business Name')}", icon="⚡")
-
-   
