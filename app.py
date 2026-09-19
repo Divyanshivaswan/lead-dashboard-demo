@@ -14,6 +14,24 @@ st.set_page_config(
 # Clay.com / Linear Style - Advanced UI with Micro-interactions & Hover Effects
 st.markdown("""
 <style>
+    .stTextInput input, .stSelectbox select, div[data-baseweb="select"] {
+        background-color: #161b22 !important;
+        color: #f0f6fc !important;
+        -webkit-text-fill-color: #f0f6fc !important;
+    }
+    
+    /* Input Container Override */
+    div[data-baseweb="input"], div[data-baseweb="select"], div[data-baseweb="base-input"] {
+        background-color: #161b22 !important;
+        border: 1px solid #30363d !important;
+        color: #f0f6fc !important;
+    }
+
+    /* Placeholder text visibility */
+    input::placeholder {
+        color: #8b949e !important;
+        -webkit-text-fill-color: #8b949e !important;
+    }
     .stApp {
         background-color: #0b0f17;
         color: #e6edf3;
