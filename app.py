@@ -113,73 +113,7 @@ st.markdown("""
 
 @st.cache_data
 def load_data():
-    return [
-        {
-            "id": 101,
-            "name": "DLF Realty Executives",
-            "category": "Real Estate",
-            "location": "Gurugram, Sector 43",
-            "phone": "+91 98118 90123",
-            "rating": 4.8,
-            "reviews": 210,
-            "verified": True,
-            "decision_maker": "Sales Director",
-            "website": "dlfrealty.co.in",
-            "pitch_angle": "Offer verified high-net-worth investor phone lists for premium property sales."
-        },
-        {
-            "id": 102,
-            "name": "Gold's Gym Signature",
-            "category": "Gym & Fitness",
-            "location": "Gurugram, Cyber City",
-            "phone": "+91 98102 44321",
-            "rating": 4.7,
-            "reviews": 430,
-            "verified": True,
-            "decision_maker": "Branch Operations Manager",
-            "website": "goldsgym.in",
-            "pitch_angle": "Pitch automated WhatsApp membership renewal system & lead follow-up CRM."
-        },
-        {
-            "id": 103,
-            "name": "Clove Dental Specialty",
-            "category": "Healthcare",
-            "location": "South Delhi, GK-2",
-            "phone": "+91 99991 12345",
-            "rating": 4.6,
-            "reviews": 315,
-            "verified": True,
-            "decision_maker": "Practice Administrator",
-            "website": "clovedental.in",
-            "pitch_angle": "Pitch Google Review automation & local patient acquisition campaign."
-        },
-        {
-            "id": 104,
-            "name": "Design Studio Interiors",
-            "category": "Interior Design",
-            "location": "Noida, Sector 62",
-            "phone": "+91 98710 54321",
-            "rating": 4.3,
-            "reviews": 98,
-            "verified": False,
-            "decision_maker": "Principal Architect",
-            "website": "designstudio.co.in",
-            "pitch_angle": "Provide targeted villa owners lead list for high-end interior projects."
-        },
-        {
-            "id": 105,
-            "name": "Career Launcher Academy",
-            "category": "Education",
-            "location": "Faridabad, Sector 15",
-            "phone": "+91 98100 88776",
-            "rating": 4.2,
-            "reviews": 512,
-            "verified": True,
-            "decision_maker": "Center Head",
-            "website": "careerlauncher.com",
-            "pitch_angle": "Offer database of Class 11-12 entrance exam aspirants."
-        }
-    ]
+    return pd.read_csv("sample_leads.csv").to_dict(orient="records")
 
 data = load_data()
 
